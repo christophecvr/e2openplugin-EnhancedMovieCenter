@@ -40,6 +40,15 @@ from __init__ import _, language
 from EMCTasker import emcTasker, emcDebugOut
 import copy
 
+try:
+	from boxbranding import getImageDistro
+	distro = getImageDistro()
+	if distro.lower() in ('openatv', 'openmips'):
+		hasmkvcuesheetsupport = True
+	else:
+		hasmkvcuesheetsupport = False
+except:
+	hasmkvcuesheetsupport = False
 
 class ConfigTextWOHelp(ConfigText):
 	def __init__(self, default = "", fixed_size = True, visible_width = False):
@@ -321,7 +330,10 @@ config.EMC.movie_finished_percent    = ConfigSelectionNumber(50, 100, 1, default
 config.EMC.movie_date_format         = ConfigSelection(default = "%d.%m %H:%M", choices = date_choices)
 config.EMC.movie_date_position       = ConfigSelection(default = '0', choices = [ ('0', _("center")), ('1', _("right")), ('2', _("left")) ])
 config.EMC.movie_ignore_firstcuts    = ConfigYesNo(default = True)
-config.EMC.movie_jump_first_mark     = ConfigYesNo(default = True)
+if hasmkvcuesheetsupport:
+	config.EMC.movie_jump_first_mark     = ConfigYesNo(default = False)
+else:
+	config.EMC.movie_jump_first_mark     = ConfigYesNo(default = True)
 config.EMC.movie_rewind_finished     = ConfigYesNo(default = True)
 config.EMC.movie_save_lastplayed     = ConfigYesNo(default = False)
 config.EMC.record_eof_zap            = ConfigSelection(default = '0', choices = [ ('0', _("Yes, without Message")), ('1', _("Yes, with Message")), ('2', _("No")) ])

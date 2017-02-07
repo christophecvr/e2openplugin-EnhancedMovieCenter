@@ -185,6 +185,11 @@ class InfoBarSupport(	InfoBarBase, \
 			self.jumpToFirstMark()
 		elif self.service and self.service.type == sidDVD:
 			DelayedFunction(50, boundFunction(self.dvdPlayerWorkaround))
+		if hasmkvcuesheetsupport:
+			if self.cut_list:
+				for cp in self.cut_list[:]:
+					if cp[1] == self.CUT_TYPE_LAST:
+						self.cut_list.remove(cp)
 		self.showAfterSeek()
 
 	def numberEntered(self, retval):
